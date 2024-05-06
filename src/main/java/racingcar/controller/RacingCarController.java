@@ -1,49 +1,30 @@
 package racingcar.controller;
 
+import org.springframework.stereotype.Component;
 import racingcar.domain.Cars;
 import racingcar.domain.Round;
-import racingcar.utils.InputParse;
-import racingcar.view.InputView;
-import racingcar.view.OutputView;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class RacingCarController {
     private static final int ROUND_STEP = 1;
 
-    public void run() throws IOException {
-        Cars cars = inputRacingCarName();
-        Round round = inputRound();
-
-        startGame(cars, round);
-        findWinner(cars);
+    public List<String> findWinner(Cars cars) {
+        return cars.getWinnerCars();
     }
 
-    private void findWinner(Cars cars) {
-        List<String> winnerNames = cars.getWinnerCars();
-        OutputView.printWinners(winnerNames);
-    }
-
-    private void startGame(Cars cars, Round round) {
-        OutputView.printResultHeader();
+    public List<String> startGame(Cars cars, Round round) {
+        List<String> result = new ArrayList<>();
         while (!round.isGameOver()) {
             cars.moveAll();
             List<String> messages = cars.getMessages();
-            OutputView.printResult(messages);
+//            OutputView.printResult(messages);
+            result.addAll(messages);
             round.step(ROUND_STEP);
         }
-    }
 
-    private Round inputRound() throws IOException {
-        String input = InputView.inputRound();
-        int totalRound = InputParse.parseInt(input);
-        return Round.totalRoundFrom(totalRound);
-    }
-
-    private Cars inputRacingCarName() throws IOException {
-        String input = InputView.inputCarNames();
-        List<String> carNames = InputParse.splitInputCarNames(input);
-        return Cars.carNamesFrom(carNames);
+        return result;
     }
 }

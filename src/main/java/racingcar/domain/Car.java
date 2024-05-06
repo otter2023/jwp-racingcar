@@ -67,6 +67,10 @@ public class Car implements Comparable<Car> {
         return name;
     }
 
+    public String getPosition() {
+        return position.toString();
+    }
+
     @Override
     public String toString() {
 

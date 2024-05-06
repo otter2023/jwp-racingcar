@@ -106,4 +106,8 @@ public class Cars {
                 .map(Car::toString)
                 .collect(Collectors.toList());
     }
+
+    public List<Car> getCars() {
+        return cars;
+    }
 }
